@@ -24,7 +24,6 @@ In the output, you'll find options to open the app in a
 - [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
 You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
 ## Get a fresh project
 
 When you're ready, run:
@@ -34,6 +33,10 @@ npm run reset-project
 ```
 
 This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+
+# sample :-
+
+<img width="1919" height="1079" alt="Screenshot 2025-11-09 235030" src="https://github.com/user-attachments/assets/b73e5add-45de-4bee-8526-b6d3b1a5b4ef" />
 
 ## Learn more
 
