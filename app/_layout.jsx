@@ -3,12 +3,14 @@ import { StatusBar } from 'expo-status-bar';
 import { useColorScheme } from 'react-native';
 import { Colors } from '../Constants/Colors.js';
 
+//useCOntec
+import { UserProvider } from '../context/userContext';
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const theme = Colors[colorScheme] ?? Colors.light;
 
   return (
-    <>
+    <UserProvider>
       <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
       <Stack
         screenOptions={{
@@ -22,6 +24,6 @@ export default function RootLayout() {
         <Stack.Screen name="Profile" options={{ title: 'Profile Page' }} />
         <Stack.Screen name="Home" options={{ title: 'Home Page' }} />
       </Stack>
-    </>
+    </UserProvider>
   );
 }
