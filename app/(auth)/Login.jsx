@@ -62,7 +62,7 @@ const Login = () => {
                             value={password}
                             onChangeText ={ setPassword}/>	  
             
-		<ThemedButtons onPress={handleSubmit}>
+		<ThemedButtons onPress={()=>handleSubmit}>
 		<Text style={{color:'#f2f2f2',textAlign:'center'}}>Login To Your Account</Text>
 		</ThemedButtons>
 

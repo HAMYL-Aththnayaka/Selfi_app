@@ -1,7 +1,6 @@
 import { Stack } from 'expo-router';
 import { StatusBar, useColorScheme } from 'react-native';
 import {useUser} from '../../hooks/useUser'
-import UserOnly from '../../Components/auth/UserOnly'
 import GuestOnly from '../../Components/auth/GuessOnly'
 
 export default function RootLayout() {

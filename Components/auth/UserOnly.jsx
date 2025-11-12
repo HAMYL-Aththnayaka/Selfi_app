@@ -1,20 +1,23 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { Text } from 'react-native';
 import { useRouter } from 'expo-router';
-import { useUser } from '../../hooks/useUser.jsx';
-import ThemedLoader from '../ThemedLoader';
+import { useUser } from '../../hooks/useUser';
+
+import ThemedLoader from '../ThemedLoader'
 
 const UserOnly = ({ children }) => {
   const { user, authCheck } = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (authCheck && !user) {
-      router.replace('/Login'); // safe: only runs after authCheck
+    if (authCheck && user === null) {
+      router.replace('/Login');
     }
-  }, [authCheck, user]);
+  }, [user, authCheck]);
 
-  if (!authCheck) return <ThemedLoader />; // wait until authCheck finishes
-  if (!user) return null; // render nothing while redirecting
+  if (!authCheck || user) {
+    return (<ThemedLoader/>)
+  }
 
   return children;
 };

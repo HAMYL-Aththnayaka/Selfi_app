@@ -49,7 +49,7 @@ export function UserProvider({children}){
 
     useEffect(()=>{
             getUserValueInital();;
-    },[])
+    },[user])
     return (
         <UserContext.Provider value={{user ,login,register,logout,authCheck}}>
                 {children}

@@ -22,7 +22,6 @@ const Register = () => {
             setError(null);
             await register(email , password);
             console.log(`current user is :${user}`)
-
         }catch(error){
           setError(error.meassage)
         }

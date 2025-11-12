@@ -12,13 +12,13 @@ const GuessOnly =({children}) =>{
 
 
 	useEffect(()=>{
-		if(authCheck && user == null){
+		if(authCheck && user !== null){
 			router.replace('/Login');
 		}
 	},[user ,authCheck])
 
 
-	if(!authCheck ||  user === null){
+	if(!authCheck ||  user){
 		 return(<ThemedLoader/>)
 	}
 	return children
