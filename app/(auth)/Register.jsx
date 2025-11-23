@@ -1,8 +1,8 @@
 import { Link } from 'expo-router';
 import { Keyboard, StyleSheet, Text, View } from "react-native";
 import { TouchableWithoutFeedback } from 'react-native-web';
-import { useUser } from '../../hooks/useUser';
 import { Colors } from '../../Constants/Colors.js';
+import { useUser } from '../../hooks/useUser';
 
 // Themed Components
 import { useState } from 'react';
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     },
     linkText: {
         textAlign: 'center',
-        color: 'blue', // optional styling
+        color: 'blue', 
         textDecorationLine: 'underline'
     },
     error:{

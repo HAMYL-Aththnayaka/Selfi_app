@@ -1,16 +1,16 @@
-import {StyleSheet,Text , TouchableWithoutFeedback ,Keyboard} from 'react-native'
-import {useBooks} from '../../hooks/useBooks'
-import { useRouter } from 'expo-router'
+import { useRouter } from 'expo-router';
+import { Keyboard, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native';
+import { useBooks } from '../../hooks/useBooks';
 
-import React , {useState} from 'react'
+import { useState } from 'react';
 
 
 
-import Spacer  from  '../../Components/Spacer';
+import Spacer from '../../Components/Spacer';
+import ThemedButton from '../../Components/ThemedButton';
 import ThemedText from '../../Components/ThemedText';
+import ThemedTextInput from '../../Components/ThemedTextInput';
 import ThemedView from '../../Components/ThemedView';
-import ThemedTextInput from '../../Components/ThemedTextInput'
-import ThemedButton from '../../Components/ThemedButton'
 
 
 
@@ -30,12 +30,12 @@ import ThemedButton from '../../Components/ThemedButton'
 					setLoading(true)
 				await createBook({title , author , description})
 				
-		//reset the fields again
+		
 				setTitle('')
 				setAuthor('')
 				setDescription('')
 
-				//rediret
+				
 				router.replace('/books');
 				setLoading(false)
 		}

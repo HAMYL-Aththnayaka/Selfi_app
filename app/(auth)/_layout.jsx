@@ -1,12 +1,12 @@
-import { Stack, Redirect } from 'expo-router'; // Import Redirect
-import { StatusBar } from 'react-native';
+import { Stack } from 'expo-router';
+import { ActivityIndicator, StatusBar, View } from 'react-native';
 import { useUser } from '../../hooks/useUser';
-import { ActivityIndicator, View } from 'react-native';
-import Home from '../Home'
-export default function AuthLayout() {
-  const { user, loading } = useUser(); // Assuming your hook returns a loading state
 
-  // 1. If specific loading state exists, show spinner to prevent flickering
+import Home from '../Home';
+export default function AuthLayout() {
+  const { user, loading } = useUser();
+
+  
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -15,8 +15,6 @@ export default function AuthLayout() {
     );
   }
 
-  // 2. STOP THE LOOP: If user is already logged in, kick them to the dashboard
-  // Do not render the Login/Register stack.
   if (user) {
     return <Home/>; 
   }
@@ -26,8 +24,8 @@ export default function AuthLayout() {
       <StatusBar style="auto" />
       <Stack
         screenOptions={{
-          headerShown: false, // Fixed Typo: was 'headerShow'
-          animation: 'ios',   // Standard animation (or 'default')
+          headerShown: false, 
+          animation: 'ios',   
         }}
       >
         <Stack.Screen name="Login" options={{ headerShown: false }} />

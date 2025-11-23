@@ -1,6 +1,6 @@
 import { Link } from 'expo-router';
 import { useState } from 'react';
-import { Keyboard, StyleSheet, Text, View,ActivityIndicator } from "react-native";
+import { Keyboard, StyleSheet, Text, View } from "react-native";
 import { Colors } from '../../Constants/Colors.js';
 import { useUser } from '../../hooks/useUser.jsx';
 //import {ActivityIndicator} 'react-native'
@@ -12,7 +12,6 @@ import ThemedButtons from '../../Components/ThemedButton';
 import ThemedText from '../../Components/ThemedText';
 import ThemedTextInput from '../../Components/ThemedTextInput';
 import ThemedView from '../../Components/ThemedView';
-import ThemedLoader from '../../Components/ThemedLoader'
 
 const Login = () => {
     const {login }=useUser();
@@ -103,7 +102,7 @@ const styles = StyleSheet.create({
     },
     linkText: {
         textAlign: 'center',
-        color: 'blue', // optional styling
+        color: 'blue', 
         textDecorationLine: 'underline'
     },
 	btn:{
