@@ -7,7 +7,9 @@ import { Colors } from '../Constants/Colors.js';
 
 //useCOntec
 import { UserProvider } from '../context/userContext';
-import {BookProvider} from '../context/BookProvider'
+import { BookProvider } from '../context/BooksContext.jsx';
+
+
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -26,7 +28,6 @@ export default function RootLayout() {
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(dashboard)" options={{ headerShown: false }} />
         <Stack.Screen name="index" options={{ title: 'Index Page' }} />
-        <Stack.Screen name="Profile" options={{ title: 'Profile Page' }} />
         <Stack.Screen name="Home" options={{ title: 'Home Page' }} />
       </Stack>
 

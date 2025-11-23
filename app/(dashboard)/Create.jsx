@@ -1,6 +1,7 @@
-import {StyleSheet,Text , TouchableWithoutFeedback ,keyboard} from 'react-native'
-import {useBook} from '../../hooks/useBook'
-import {useRouter} from 'react-router'
+import {StyleSheet,Text , TouchableWithoutFeedback ,Keyboard} from 'react-native'
+import {useBooks} from '../../hooks/useBooks'
+import { useRouter } from 'expo-router'
+
 import React , {useState} from 'react'
 
 
@@ -21,7 +22,7 @@ import ThemedButton from '../../Components/ThemedButton'
 		const [loading ,setLoading] = useState(false);
 
 
-		const {createBook } = useBook();
+		const {createBook } = useBooks();
 		const router = useRouter();
 
 		const handleSubmit =async()=>{
@@ -41,7 +42,7 @@ import ThemedButton from '../../Components/ThemedButton'
 
 
 		return(
-		<TouchableWithoutFeedback onPress={keyboard.dismiss}>
+		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 			
 			<ThemedView style={styles.container}>
 				<ThemedText title={true} style={styles.heading}>

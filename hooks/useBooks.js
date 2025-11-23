@@ -1,12 +1,15 @@
-import { useContext } from "react";
-import { BookContent}  from '../context/userContext';
-export function useBook (){
+import { useContext } from 'react';
 
+import { BookContext } from '../context/BooksContext'; 
 
-    const context  = useBook(BookContent);
+export function useBooks() {
+  
 
-        if (!context){
-            throw new Error('useUser must be used within a BookProvider')
-        }
-    return context
+  const context = useContext(BookContext);
+
+  if (context === undefined) {
+    throw new Error('useBooks must be used within a BookProvider');
+  }
+
+  return context;
 }

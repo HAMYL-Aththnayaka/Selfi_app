@@ -1,74 +1,124 @@
- import {createContext , useState} from 'react'
- import {databases} from '../lib/appwrite'
- import {ID,Permission,Role} from 'appwrite'
- import {useUser} from '../hooks/useUser'
+import { createContext, useState, useEffect } from 'react';
+import { databases, client } from '../lib/appwrite';
+// Consolidate imports
+import { ID, Permission, Role, Query } from 'react-native-appwrite'; 
+import { useUser } from '../hooks/useUser';
 
+const Database_ID = "6914bd40002be2bde2c0";
+const Collection_ID = "books"; // Ensure this matches your Appwrite Console Collection ID exactly!
 
+export const BookContext = createContext();
 
-    const Database_ID = "6914bd40002be2bde2c0"
-    const Collection_ID ="books"
+export function BookProvider({ children }) {
+    const [books, setBook] = useState([]);
+    const { user } = useUser();
 
- export const BookContext = createContext();
+    async function fetchBook() {
+        try {
+            // FIX 1: 'listDocuments' is plural
+            const response = await databases.listDocuments(
+                Database_ID,
+                Collection_ID,
+                [
+                    Query.equal('userId', user.$id)
+                ]
+            );
+            // FIX 2: Actually update the state with the result
+            setBook(response.documents); 
+        } catch (error) {
+            console.log("Fetch Error:", error.message);
+        }
+    }
 
- export function BookProvider ({children}){
- 	const {book , setBooks} =useState([]);\
- 	const {user} =useUser();
+    async function fetchBookById(id) {
+        try {
+            const response = await databases.getDocument(
+                Database_ID,
+                Collection_ID,
+                id
+            );
+            return response;
+        } catch (error) {
+            console.log("Fetch One Error:", error.message);
+        }
+    }
 
- 	async function fetchBook(){
- 		try{
+    async function createBook(data) {
+        try {
+            const newBook = await databases.createDocument(
+                Database_ID,
+                Collection_ID,
+                ID.unique(),
+                { ...data, userId: user.$id },
+                [
+                    // FIX 3: Correct syntax is Role.user(...)
+                    Permission.read(Role.user(user.$id)),
+                    Permission.update(Role.user(user.$id)),
+                    Permission.delete(Role.user(user.$id))
+                ]
+            );
+            // NOTE: We do NOT need to setBook here because the useEffect 
+            // Realtime listener below will catch the 'create' event and add it.
+            console.log("Book Created:", newBook);
+        } catch (error) {
+            console.log("Create Error:", error.message);
+        }
+    }
 
- 		}catch(error){
- 			console.log(error.message)
- 		}
- 	}
+    async function deleteBook(id) {
+        try {
+            await databases.deleteDocument(
+                Database_ID,
+                Collection_ID,
+                id
+            );
+            // Again, let the Realtime listener handle the state update
+        } catch (error) {
+            console.log("Delete Error:", error.message);
+        }
+    }
 
- 	async function fetchBookById(id){
- 		try{
+    useEffect(() => {
+        let unsubscribe;
+        // FIX 4: Channel syntax usually requires 'documents' (plural) at the end
+        const channel = `databases.${Database_ID}.collections.${Collection_ID}.documents`;
 
- 		}catch(error){
- 			console.log(error.message)
- 		}
- 	}
+        if (user) {
+            fetchBook();
 
- 	async function createBook(data){
- 		try{
+            unsubscribe = client.subscribe(channel, (response) => {
+                const { payload, events } = response;
 
- 				const newBook = await databases.createDocument(
- 					Database_ID,
- 					Collection_ID,
- 					ID.unique(),
- 					{...data,userId: user.$id },
- 					{
- 						Permission.read(Role(user.$id)),
- 						Permission.update(Role(user.$id)),
- 						Permission.delete(Role(user.$id))
- 					})
- 		}catch(error){
- 			console.log(error.message)
- 		}
-	 }
+                if (events.some(event => event.includes('create'))) {
+                    // FIX 5: Correct arrow function return for adding to array
+                    setBook((prev) => [...prev, payload]);
+                }
+                
+                if (events.some(event => event.includes('delete'))) {
+                    // FIX 6: Fixed typo 'fileter' to 'filter'
+                    setBook((prev) => prev.filter((book) => book.$id !== payload.$id));
+                }
+            });
+        } else {
+            setBook([]);
+        }
 
-	async function deleteBook(id) {
-		try{
+        return () => {
+            if (unsubscribe) unsubscribe();
+        };
+    }, [user]);
 
-		}catch(error){
-			console.log(error.message)
-		}
-	}
-
-return(
-	<BookContext.Provider
-	 value={{   books ,
-	 			fetchBook ,  
-	 			fetchBookById ,
-	 			createBook, 
-	 			deleteBook}}>
-
-	 			{children}
-
-	</BookContext.Provider>	
-
-		)
-
-
- }
+    return (
+        <BookContext.Provider
+            value={{
+                books,
+                fetchBook,
+                fetchBookById,
+                createBook,
+                deleteBook
+            }}
+        >
+            {children}
+        </BookContext.Provider>
+    );
+}
